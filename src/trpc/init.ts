@@ -1,7 +1,9 @@
+import { ratelimit } from '@/lib/ratelimit';
 import { auth } from '@clerk/nextjs/server';
 import { initTRPC, TRPCError } from '@trpc/server';
 import { cache } from 'react';
 import superjson from 'superjson';
+
 export const createTRPCContext = cache(async () => {
   return { auth: await auth() };
 });
@@ -17,11 +19,20 @@ const t = initTRPC.context<Context>().create({
   transformer: superjson,
 });
 
-const isAuthed = t.middleware(({ next, ctx }) => {
+const isAuthed = t.middleware(async ({ next, ctx }) => {
   if (!ctx.auth.userId) {
     throw new TRPCError({
       code: "UNAUTHORIZED",
       message: "Not authenticated"
+    })
+  }
+
+  const { success } = await ratelimit.limit(ctx.auth.userId)
+
+  if (!success) {
+    throw new TRPCError({
+      code: "TOO_MANY_REQUESTS",
+      message: "Too many requested"
     })
   }
 
