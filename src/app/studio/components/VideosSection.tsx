@@ -9,6 +9,9 @@ import { Suspense } from "react";
 import { ErrorBoundary } from "react-error-boundary";
 import { format } from "date-fns";
 import { InfiniteScroll } from "@/components/InfiniteScroll";
+import VideoThumbnail from "../videos/[videoId]/components/VideoThumbnail";
+import { snakeCaseToTitleCase } from "@/lib/utils";
+import { GlobeIcon, LockIcon } from "lucide-react";
 
 const VideoSectionSuspense = () => {
     const trpc = useTRPC()
@@ -21,7 +24,7 @@ const VideoSectionSuspense = () => {
             }
         }
     ))
-   
+
     return (
         <div>
             <div>
@@ -44,7 +47,12 @@ const VideoSectionSuspense = () => {
                                     <Link href={``} className="block">
                                         <div className="flex items-center gap-4">
                                             <div className="relative aspect-video w-36 shrink-0">
-                                                thumbnail
+                                                <VideoThumbnail
+                                                    imageUrl={video.thumbnailUrl}
+                                                    title={video.title}
+                                                    previewUrl={video.previewUrl}
+                                                    duration={video.duration || 0}
+                                                />
                                             </div>
                                             <div className="flex flex-col overflow-hidden gap-y-1">
                                                 <span className="text-sm text-muted-foreground line-clamp-1">
@@ -58,10 +66,19 @@ const VideoSectionSuspense = () => {
                                     </Link>
                                 </TableCell>
                                 <TableCell>
-                                    Visibility
+                                    <div className="flex items-center">
+                                        {video.visibility === "private" ? (
+                                            <LockIcon className="size-4 mr-2" />
+                                        ) : (
+                                            <GlobeIcon className="size-4 mr-2" />
+                                        )}
+                                        {snakeCaseToTitleCase(video.visibility)}
+                                    </div>
                                 </TableCell>
                                 <TableCell className="text-sm truncate">
-                                    status
+                                    <div className="flex items-center">
+                                        {snakeCaseToTitleCase(video.muxStatus || "error")}
+                                    </div>
                                 </TableCell>
                                 <TableCell>{format(video.createdAt, "d MMM yyyy")}</TableCell>
                                 <TableCell>Views</TableCell>
