@@ -1,5 +1,5 @@
 import { db } from '@/db'
-import { users } from '@/db/schema'
+import { users } from '@/db/schema/users'
 import { verifyWebhook } from '@clerk/nextjs/webhooks'
 import { eq } from 'drizzle-orm'
 import { NextRequest } from 'next/server'

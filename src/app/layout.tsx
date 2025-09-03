@@ -4,6 +4,7 @@ import "./globals.css";
 import { ThemeProvider } from "@/components/theme-provider";
 import { ClerkProvider } from '@clerk/nextjs'
 import { TRPCReactProvider } from "@/trpc/client";
+import { Toaster } from "@/components/ui/sonner";
 
 const inter = Inter({
   subsets: ["latin"]
@@ -31,7 +32,8 @@ export default function RootLayout({
               defaultTheme="system"
               enableSystem
             >
-              {children}
+              <main>{children}</main>
+              <Toaster />
             </ThemeProvider>
           </body>
         </html>

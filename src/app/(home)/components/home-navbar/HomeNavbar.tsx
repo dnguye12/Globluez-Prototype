@@ -3,6 +3,7 @@ import { SidebarTrigger } from "@/components/ui/sidebar";
 import HomeSearchInput from "./components/HomeSearchInput";
 import HomeThemeToggle from "./components/HomeThemeToggle";
 import { Button } from "@/components/ui/button";
+import HomeUserButton from "./components/HomeUserButton";
 
 const HomeNavbar = () => {
     return ( 
@@ -12,9 +13,10 @@ const HomeNavbar = () => {
                 <Separator orientation="vertical" className="h-9"/>
                 <HomeSearchInput />
                 <Separator orientation="vertical" className="h-9"/>
-                <HomeThemeToggle />
+                <Button disabled>Upload</Button>
                 <Separator orientation="vertical" className="h-9"/>
-                <Button disabled>Login</Button>
+                <HomeThemeToggle />
+                <HomeUserButton />
             </div>
         </nav>
      );
