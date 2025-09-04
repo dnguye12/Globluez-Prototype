@@ -1,17 +1,20 @@
 import { HydrateClient } from "@/trpc/server";
+import FormSection from "./components/FormSection";
 
 interface VideoPageProps {
-    params: Promise<{videoId: string}>
+    params: Promise<{ videoId: string }>
 }
 
-const VideoPage = async({params} : VideoPageProps) => {
-    const {videoId} = await params
+const VideoPage = async ({ params }: VideoPageProps) => {
+    const { videoId } = await params
 
-    return ( 
+    return (
         <HydrateClient>
-             <div className="px-4 pt-2.5 max-w-screen-lg">{videoId}</div>
+            <div className="px-4 pt-2.5 max-w-screen-lg">
+                <FormSection videoId={videoId} />
+            </div>
         </HydrateClient>
-     );
+    );
 }
- 
+
 export default VideoPage;

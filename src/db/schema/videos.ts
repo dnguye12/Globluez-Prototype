@@ -3,6 +3,7 @@ import { users } from "./users";
 import { relations } from "drizzle-orm";
 import { categories } from "./categories";
 import { countries } from "./countries";
+import { createInsertSchema, createSelectSchema, createUpdateSchema } from "drizzle-zod";
 
 export const videoVisibility = pgEnum("video_visibility", ["public", "private"]);
 
@@ -36,6 +37,10 @@ export const videos = pgTable("videos", {
     createdAt: timestamp("created_at").defaultNow().notNull(),
     updatedAt: timestamp("updated_at").defaultNow().notNull()
 })
+
+export const videoInsertSchema = createInsertSchema(videos);
+export const videoUpdateSchema = createUpdateSchema(videos);
+export const videoSelectSchema = createSelectSchema(videos);
 
 export const videoRelations = relations(videos, ({ one }) => ({
     user: one(users, {
